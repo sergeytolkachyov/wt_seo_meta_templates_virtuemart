@@ -1,15 +1,14 @@
 <?xml version="1.0"?>
-<extension type="plugin" version="3.9" method="upgrade" group="system">
+<extension type="plugin" method="upgrade" group="system">
     <name>System - WT SEO Meta templates - Virtuemart</name>
     <author>Sergey Tolkachyov</author>
     <authorEmail>info@web-tolk.ru</authorEmail>
     <authorUrl>https://web-tolk.ru/</authorUrl>
-	<creationDate>14/05/2021</creationDate>
+	<creationDate>26/06/2023</creationDate>
     <copyright>Sergey Tolkachyov</copyright>
     <license>GNU General Public License v3.0</license>
-    <version>1.0.0</version>
+    <version>1.1.1</version>
     <description>Virtuemart plugin for WT SEO Meta templates</description>
-	<scriptfile>script.php</scriptfile>
     <files>
         <filename plugin="wt_seo_meta_templates_virtuemart">wt_seo_meta_templates_virtuemart.php</filename>
         <folder>language</folder>
@@ -126,6 +125,18 @@
                        rows="3"
                        class="span8"
                        showon="global_vm_product_meta_description_replace:1"/>
+                <field type="radio"
+                       name="replace_zero_price_with_text"
+                       label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_REPLACE_ZERO_PRICE_WITH_TEXT"
+                       class="btn-group btn-group-yesno"
+                       default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field type="text"
+                       name="zero_price_replace_text"
+                       label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_ZERO_PRICE_REPLACE_TEXT"
+                       showon="replace_zero_price_with_text:1"/>
                 <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_SHOW_DEBUG_HEADER"/>
                 <field type="radio"
                        name="show_debug"

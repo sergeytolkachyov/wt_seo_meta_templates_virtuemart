@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     WT JoomShopping B24 PRO
- * @version     2.5.0
- * @Author Sergey Tolkachyov, https://web-tolk.ru
- * @copyright   Copyright (C) 2020 Sergey Tolkachyov
+ * @package     WT SEO Meta templates - Virtuemart
+ * @version     1.1.1
+ * @Author      Sergey Tolkachyov, https://web-tolk.ru
+ * @copyright   Copyright (C) 2020-2023 Sergey Tolkachyov
  * @license     GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
- * @since       1.0
+ * @since       1.0.0
  */
 // No direct access
 defined( '_JEXEC' ) or die;
@@ -39,7 +39,7 @@ class plgSystemWt_seo_meta_templates_virtuemart extends CMSPlugin
 		!JDEBUG ?: Profiler::getInstance('Application')->mark('<strong>plg WT SEO Meta templates - Virtuemart provider plugin</strong>: After load Virtuemart config');
 			$variables = array();
 			// Short codes for virtuemart category view
-			if($app->input->get('view') == 'category'){
+			if($app->input->get('view') == 'category' && $app->input->get('virtuemart_category_id') != 0 ){
 				$virtuemart_category_id = $app->input->get('virtuemart_category_id');
 
 			!JDEBUG ?: Profiler::getInstance('Application')->mark('<strong>plg WT SEO Meta templates - Virtuemart provider plugin</strong>: Before load Virtuemart category');
@@ -69,13 +69,6 @@ class plgSystemWt_seo_meta_templates_virtuemart extends CMSPlugin
 						'value'    => $vm_parent_category_name,
 					];
 				}
-
-				//Количество товаров в категории и всех дочерних
-//				$total_items_count = $this->countProductsByCategoryRecursive($vm_category->virtuemart_vendor_id,$vm_category->virtuemart_category_id);
-//				$variables[] = [
-//					'variable' => 'VM_CATEGORY_TOTAL_PRDUCTS_COUNT',
-//					'value'    => $total_items_count,
-//				];
 
 				//Массив для тайтлов и дескрипшнов по формуле для передачи в основной плагин
 				$seo_meta_template = array();
@@ -260,16 +253,32 @@ class plgSystemWt_seo_meta_templates_virtuemart extends CMSPlugin
 					'value'    => $vm_product->canonCatIdname,
 				];
 
+				$currency = CurrencyDisplay::getInstance();
+
+				//If we have a product's zero base price we can replace digits with text
+				if((int)$vm_product->prices['basePrice'] == 0 && $this->params->get('replace_zero_price_with_text',0) == 1 && !empty($this->params->get('zero_price_replace_text',''))){
+					$vm_product_base_price = $this->params->get('zero_price_replace_text','');
+				} else {
+					$vm_product_base_price = $currency->priceDisplay($vm_product->prices['basePrice'],'',1,true);
+				}
+
 				//Virtuemart product base price
 				$variables[] = [
 					'variable' => 'VM_PRODUCT_BASE_PRICE',
-					'value'    => $vm_product->prices['basePrice'],
+					'value'    => $vm_product_base_price,
 				];
+
+				//If we have a product's zero sales price we can replace digits with text
+				if(empty($vm_product->prices['salesPrice']) == true && $this->params->get('replace_zero_price_with_text',0) == 1 && !empty($this->params->get('zero_price_replace_text',''))){
+					$vm_product_sales_price = $this->params->get('zero_price_replace_text','');
+				} else {
+					$vm_product_sales_price = $currency->priceDisplay($vm_product->prices['salesPrice'],'',1,true);;
+				}
 
 				//Virtuemart product sales price
 				$variables[] = [
 					'variable' => 'VM_PRODUCT_SALES_PRICE',
-					'value'    => $vm_product->prices['salesPrice'],
+					'value'    => $vm_product_sales_price,
 				];
 
 				//Virtuemart product unit price
@@ -305,7 +314,7 @@ class plgSystemWt_seo_meta_templates_virtuemart extends CMSPlugin
 							//Переписываем все глобально
 							if($this->params->get('show_debug') == 1)
 							{
-								echo Text::_('PLG_WT_SEO_META_TEMPLATES_DEBUG_GLOBAL_VM_PRODUCT_TITLE_REPLACE');
+								echo Text::_('PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_DEBUG_GLOBAL_VM_PRODUCT_TITLE_REPLACE');
 							}
 							$title_template = $this->params->get('virtuemart_product_title_template');
 							$seo_meta_template['title'] = $title_template;
@@ -334,14 +343,14 @@ class plgSystemWt_seo_meta_templates_virtuemart extends CMSPlugin
 								{
 									echo Text::_('PLG_WT_SEO_META_TEMPLATES_DEBUG_EMPTY_PRODUCT_META_DESCRIPTION_FOUND');
 								}
-								$description_template = $this->params->get('virtuemart_category_meta_description_template');
+								$description_template = $this->params->get('virtuemart_product_meta_description_template');
 								$seo_meta_template['description'] = $description_template;
 							}
 						}else{
 							//Переписываем все глобально
 							if($this->params->get('show_debug') == 1)
 							{
-								echo Text::_('PLG_WT_SEO_META_TEMPLATES_DEBUG_GLOBAL_VM_PRODUCT_META_DESCRIPTION_REPLACE');
+								echo Text::_('PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_DEBUG_GLOBAL_VM_PRODUCT_META_DESCRIPTION_REPLACE');
 							}
 							$description_template = $this->params->get('virtuemart_product_meta_description_template');
 							$seo_meta_template['description'] = $description_template;
@@ -371,38 +380,5 @@ class plgSystemWt_seo_meta_templates_virtuemart extends CMSPlugin
 			return $data;
 		}//if($option == 'com_virtuemart')
 	}
-
-
-
-//	function countProductsByCategoryRecursive ($vm_vendor_id, $categoryId = 0) {
-//
-//		/*
-//		 * $vendorId,
-//		 * $virtuemart_category_id = 0,
-//		 * $childId = false,
-//		 * $onlyPublished = true,
-//		 * $media = true,
-//		 * $keyword = '',
-//		 * $selectedOrdering = null,
-//		 * $orderDir = null,
-//		 * $limitStart = 0,
-//		 * $limit = 0
-//		 */
-//		$childrenCategories = $this->vm_category_model->getChildCategoryListObjectByCachedOption($vm_vendor_id, $categoryId,false,true,false,'',null,null,0,0);
-//		$product_count = 0;
-//		if(!$childrenCategories){
-//			$product_count += $this->vm_category_model->countProducts ($categoryId);
-//		}else{
-//			foreach($childrenCategories as $value){
-//				$product_count += $this->countProductsByCategoryRecursive($value->virtuemart_vendor_id, $value->virtuemart_category_id,false,true,false,'',null,null,0,0);
-//				echo $product_count;
-//			}
-//		}
-//
-//		return $product_count;
-//	}
-
-
-
 
 }//plgSystemWt_seo_meta_templates_virtuemart
