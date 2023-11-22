@@ -24,11 +24,24 @@
        <config>
         <fields name="params">
             <fieldset name="basic">
-                <field addfieldrefix="Joomla\Plugin\System\Wt_seo_meta_templates_virtuemart\Fields" type="plugininfo" name="plugininfo"/>
-                <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_DESCRIPTION"/>
-                <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_CATEGORIES_HEADER"/>
+                <field addfieldprefix="Joomla\Plugin\System\Wt_seo_meta_templates_virtuemart\Fields" type="plugininfo" name="plugininfo"/>
+                <field type="note"
+                       description="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_DESCRIPTION"
+                       class="alert alert-info"
+                />
+                <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_SHOW_DEBUG_HEADER"/>
+                <field type="radio"
+                       name="show_debug"
+                       label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_SHOW_DEBUG"
+                       class="btn-group btn-group-yesno"
+                       default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
+            <!--                Virtuemart Category-->
+            <fieldset name="virtuemart_categories_templates" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_CATEGORIES_HEADER" description="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_VIRTUEMART_CATEGORY_VARIABLES">
                 <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_CATEGORIES_TITLE_HEADER"/>
-<!--                Virtuemart Category-->
                 <field type="radio"
                        name="global_vm_category_title_replace"
                        label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_GLOBAL_VM_CATEGORY_TITLE_REPLACE"
@@ -50,7 +63,6 @@
                        name="virtuemart_category_title_template"
                        label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_VIRTUEMART_CATEGORY_TITLE_TEMPLATE"
                        rows="3"
-                       class="span8"
                        showon="global_vm_category_title_replace:1"/>
                 <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_CATEGORIES_META_DESCRIPTION_HEADER"/>
                 <field type="radio"
@@ -74,10 +86,12 @@
                        name="virtuemart_category_meta_description_template"
                        label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_VIRTUEMART_CATEGORY_META_DESCRIPTION_TEMPLATE"
                        rows="3"
-                       class="span8"
                        showon="global_vm_category_description_replace:1"/>
-<!--                Virtuemart Product-->
-                <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_PRODUCT_HEADER"/>
+            </fieldset>
+            <!--                Virtuemart Product-->
+            <fieldset name="virtuemart_products_templates"
+                      label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_PRODUCT_HEADER"
+                      description="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_VIRTUEMART_PRODUCT_VARIABLES">
                 <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_PRODUCT_TITLE_HEADER"/>
                 <field type="radio"
                        name="global_vm_product_title_replace"
@@ -138,20 +152,6 @@
                        name="zero_price_replace_text"
                        label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_ZERO_PRICE_REPLACE_TEXT"
                        showon="replace_zero_price_with_text:1"/>
-                <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_SHOW_DEBUG_HEADER"/>
-                <field type="radio"
-                       name="show_debug"
-                       label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_SHOW_DEBUG"
-                       class="btn-group btn-group-yesno"
-                       default="0">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
-                </field>
-            </fieldset>
-            <fieldset name="wt_seo_meta_templates_virtuemart">
-                <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_VIRTUEMART_PRODUCT_VARIABLES"/>
-                <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_VIRTUEMART_CATEGORY_VARIABLES"/>
-
             </fieldset>
         </fields>
     </config>

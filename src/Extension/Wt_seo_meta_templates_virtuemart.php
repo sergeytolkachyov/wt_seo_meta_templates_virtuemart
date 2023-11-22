@@ -49,7 +49,7 @@ class Wt_seo_meta_templates_virtuemart extends CMSPlugin implements SubscriberIn
 				require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 			}
 
-			VmConfig::loadConfig();
+			\VmConfig::loadConfig();
 		!JDEBUG ?: Profiler::getInstance('Application')->mark('<strong>plg WT SEO Meta templates - Virtuemart provider plugin</strong>: After load Virtuemart config');
 			$variables = array();
 			// Short codes for virtuemart category view
@@ -57,7 +57,7 @@ class Wt_seo_meta_templates_virtuemart extends CMSPlugin implements SubscriberIn
 				$virtuemart_category_id = $app->getInput()->get('virtuemart_category_id');
 
 			!JDEBUG ?: Profiler::getInstance('Application')->mark('<strong>plg WT SEO Meta templates - Virtuemart provider plugin</strong>: Before load Virtuemart category');
-				$vm_category_model = VmModel::getModel('category');
+				$vm_category_model = \VmModel::getModel('category');
 				$vm_category = $vm_category_model->getCategory($virtuemart_category_id);
 			!JDEBUG ?: Profiler::getInstance('Application')->mark('<strong>plg WT SEO Meta templates - Virtuemart provider plugin</strong>: After load Virtuemart category');
 
@@ -166,7 +166,7 @@ class Wt_seo_meta_templates_virtuemart extends CMSPlugin implements SubscriberIn
 			// Short codes for virtuemart product details view
 			elseif ($app->getInput()->get('view') == 'productdetails'){
 				!JDEBUG ?: Profiler::getInstance('Application')->mark('<strong>plg WT SEO Meta templates - Virtuemart provider plugin</strong>: Before load Virtuemart product');
-				$product_model = VmModel::getModel('product');
+				$product_model = \VmModel::getModel('product');
 				$virtuemart_product_id = $app->getInput()->get('virtuemart_product_id');
 
 				/*
@@ -267,7 +267,7 @@ class Wt_seo_meta_templates_virtuemart extends CMSPlugin implements SubscriberIn
 					'value'    => $vm_product->canonCatIdname,
 				];
 
-				$currency = CurrencyDisplay::getInstance();
+				$currency = \CurrencyDisplay::getInstance();
 
 				//If we have a product's zero base price we can replace digits with text
 				if((int)$vm_product->prices['basePrice'] == 0 && $this->params->get('replace_zero_price_with_text',0) == 1 && !empty($this->params->get('zero_price_replace_text',''))){
