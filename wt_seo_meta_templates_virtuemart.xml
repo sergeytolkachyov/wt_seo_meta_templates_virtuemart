@@ -4,26 +4,27 @@
     <author>Sergey Tolkachyov</author>
     <authorEmail>info@web-tolk.ru</authorEmail>
     <authorUrl>https://web-tolk.ru/</authorUrl>
-	<creationDate>26/06/2023</creationDate>
+	<creationDate>November 2023</creationDate>
     <copyright>Sergey Tolkachyov</copyright>
     <license>GNU General Public License v3.0</license>
-    <version>1.1.1</version>
+    <version>2.0.0</version>
     <description>Virtuemart plugin for WT SEO Meta templates</description>
+    <namespace path="src">Joomla\Plugin\System\Wt_seo_meta_templates_virtuemart</namespace>
     <files>
-        <filename plugin="wt_seo_meta_templates_virtuemart">wt_seo_meta_templates_virtuemart.php</filename>
-        <folder>language</folder>
-        <folder>fields</folder>
+        <folder plugin="wt_seo_meta_templates_virtuemart">src</folder>
+        <folder>services</folder>
+        <filename>wt_seo_meta_templates_virtuemart.xml</filename>
     </files>
 	<languages folder="language" client="administrator">
-        <language tag="en-GB">en-GB/en-GB.plg_system_wt_seo_meta_templates_virtuemart.ini</language>
-        <language tag="ru-RU">ru-RU/ru-RU.plg_system_wt_seo_meta_templates_virtuemart.ini</language>
-        <language tag="en-GB">en-GB/en-GB.plg_system_wt_seo_meta_templates_virtuemart.sys.ini</language>
-        <language tag="ru-RU">ru-RU/ru-RU.plg_system_wt_seo_meta_templates_virtuemart.sys.ini</language>
+        <language tag="en-GB">en-GB/plg_system_wt_seo_meta_templates_virtuemart.ini</language>
+        <language tag="ru-RU">ru-RU/plg_system_wt_seo_meta_templates_virtuemart.ini</language>
+        <language tag="en-GB">en-GB/plg_system_wt_seo_meta_templates_virtuemart.sys.ini</language>
+        <language tag="ru-RU">ru-RU/plg_system_wt_seo_meta_templates_virtuemart.sys.ini</language>
     </languages>
        <config>
         <fields name="params">
             <fieldset name="basic">
-                <field addfieldpath="plugins/system/wt_seo_meta_templates_virtuemart/fields" type="plugininfo" name="plugininfo"/>
+                <field addfieldrefix="Joomla\Plugin\System\Wt_seo_meta_templates_virtuemart\Fields" type="plugininfo" name="plugininfo"/>
                 <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_DESCRIPTION"/>
                 <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_CATEGORIES_HEADER"/>
                 <field type="spacer" label="PLG_WT_SEO_META_TEMPLATES_VIRTUEMART_CATEGORIES_TITLE_HEADER"/>
@@ -154,7 +155,8 @@
             </fieldset>
         </fields>
     </config>
-	<updateservers>
-        <server type="extension" name="WebTolkUpdateServer">https://web-tolk.ru/component/swjprojects/jupdate.html?element=wt_seo_meta_templates_virtuemart</server>
+    <updateservers>
+        <server type="extension" priority="1" name="WT SEO Meta templates - Virtuemart updates">https://web-tolk.ru/component/swjprojects/jupdate?element=wt_seo_meta_templates_virtuemart</server>
     </updateservers>
+    <changelogurl>https://web-tolk.ru/jchangelog?element=wt_seo_meta_templates_virtuemart</changelogurl>
 </extension>
